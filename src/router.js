@@ -68,6 +68,12 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName:"about" */ "./views/ContactUs.vue")
     },
+    {
+      path: "/products",
+      name: "productspage",
+      component: () =>
+        import(/* webpackChunkName:"about" */ "./views/ProductPage.vue")
+    },
    
   ]
 });

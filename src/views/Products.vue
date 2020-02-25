@@ -95,6 +95,15 @@
                 </div>
 
                 <div class="form-group">
+                  <select class="form-control" id="P-categories" v-model="product.category">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
                   <input
                     type="text"
                     @keyup.188="addTag()"
@@ -118,7 +127,7 @@
                 <div class="form-group d-flex">
                   <div class="p-1" v-for="(image, index) in product.images">
                     <div class="img-wrapp">
-                      <img :src="image" alt="" width="80px" />
+                      <img :src="image" alt width="80px" />
                       <span class="delete-img" @click="deleteImage(image,index)">X</span>
                     </div>
                   </div>
@@ -165,6 +174,7 @@ export default {
         name: null,
         description: null,
         price: null,
+        category: null,
         tags: [],
         images: []
       },
@@ -179,24 +189,28 @@ export default {
     };
   },
   methods: {
-    reset(){
+    reset() {
       this.product = {
         name: null,
         description: null,
         price: null,
+        category: null,
         tags: [],
         images: []
-      }
+      };
     },
-    deleteImage(img,index){
+    deleteImage(img, index) {
       let image = fb.storage().refFromURL(img);
 
-      this.product.images.splice(index,1);
-      image.delete().then(()=>{
-        console.log('Image deleted');
-      }).catch((error)=>{
-        console.log('Error occurred');
-      });
+      this.product.images.splice(index, 1);
+      image
+        .delete()
+        .then(() => {
+          console.log("Image deleted");
+        })
+        .catch(error => {
+          console.log("Error occurred");
+        });
     },
     addTag() {
       this.product.tags.push(this.tag);
@@ -208,12 +222,15 @@ export default {
         var storageRef = fb.storage().ref("products/" + file.name);
         let uploadTask = storageRef.put(file);
 
-        uploadTask.on("state_changed",snapshot => {
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
             // Observe state change events such as progress, pause, and resume
           },
           error => {
             // Handle unsuccessful uploads
-          },() => {
+          },
+          () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
               this.product.images.push(downloadURL);
               console.log("File available at", downloadURL);
@@ -239,13 +256,14 @@ export default {
       //   });
 
       // const newPr = Object.assign({},this.product);
-         this.$firestore.products.doc(product['.key']).update({
-           name:this.product.name,
-           description:this.product.description,
-           price:this.product.price,
-           tags:this.product.tags,
-           images:this.product.images
-         });
+      this.$firestore.products.doc(product[".key"]).update({
+        name: this.product.name,
+        description: this.product.description,
+        price: this.product.price,
+        category: this.product.category,
+        tags: this.product.tags,
+        images: this.product.images
+      });
       //     // this.$firestore.products.doc(this.product.id).update(this.product);
       //    // this.$firestore.products.doc(product['.key']).update(this.product);
       //     console.log(newPr);
@@ -258,7 +276,7 @@ export default {
         images: []
       */
       Toast.fire({
-        type: "success",
+        icon: "success",
         title: "Updated  successfully"
       });
 
@@ -310,17 +328,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-.img-wrapp{
+.img-wrapp {
   position: relative;
 }
-.img-wrapp span.delete-img{
-    position: absolute;
-    top: -14px;
-    left: -2px;
+.img-wrapp span.delete-img {
+  position: absolute;
+  top: -14px;
+  left: -2px;
 }
-.img-wrapp span.delete-img:hover{
+.img-wrapp span.delete-img:hover {
   cursor: pointer;
 }
-
 </style>

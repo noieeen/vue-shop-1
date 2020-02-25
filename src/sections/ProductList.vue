@@ -7,12 +7,13 @@
           <div class="card product-item">
             <carousel :perPage="1">
               <!--slide-->
-              <slide v-for="(image, index) in product.images">
+              <slide v-for="(image, index) in product.images" >
                 <img
                   :src="image"
                   class="card-img-top"
                   alt="..."
                   width="250px"
+                  @click="we(product)"
                 />
               </slide>
             </carousel>
@@ -58,7 +59,14 @@ export default {
 
   data() {
     return {
-      products: []
+      products: [],
+      product: {
+        name: null,
+        description: null,
+        price: null,
+        tags: [],
+        images: []
+      }
     };
   },
 
@@ -66,7 +74,10 @@ export default {
     getImage(images) {
       return images[0];
       
-    }
+    },
+  we(product){
+    console.log(product.name)
+  }
     
   },
 
