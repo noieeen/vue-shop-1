@@ -11,7 +11,7 @@
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "firebase": "^7.8.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.16.1",
     "stripe": "^8.20.0",
     "sweetalert2": "^9.7.2",
